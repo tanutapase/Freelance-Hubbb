@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -25,62 +23,61 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-white/70 backdrop-blur-md border-b border-border shadow-sm py-3"
+          ? "bg-white/80 backdrop-blur-xl border-b border-neutral-100 shadow-sm py-3"
           : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-        <a href="#home" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-            <Code2 size={24} />
+        <a href="#home" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center">
+            <span className="text-white text-xs font-bold tracking-tight">S.</span>
           </div>
-          <span className="font-bold text-xl tracking-tight text-foreground">Studio</span>
+          <span className="font-bold text-lg tracking-tight text-neutral-900">Studio</span>
         </a>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors duration-200"
             >
               {link.name}
             </a>
           ))}
           <a
             href="#pricing"
-            className="px-5 py-2.5 bg-foreground text-background rounded-full text-sm font-semibold hover:bg-primary transition-colors hover:shadow-lg hover:shadow-primary/20"
+            className="px-5 py-2.5 bg-neutral-900 text-white rounded-full text-sm font-semibold hover:bg-neutral-700 transition-all duration-200 shadow-sm"
           >
             Start Project
           </a>
         </nav>
 
-        {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 text-foreground"
+          className="md:hidden p-2 text-neutral-700 rounded-lg hover:bg-neutral-100 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X /> : <Menu />}
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white border-b border-border p-6 shadow-xl flex flex-col gap-4 md:hidden"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 right-0 bg-white border-b border-neutral-100 px-6 py-6 shadow-xl flex flex-col gap-1 md:hidden"
           >
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-lg font-medium text-foreground py-2 border-b border-muted hover:text-primary transition-colors"
+                className="text-base font-medium text-neutral-700 py-3 border-b border-neutral-50 hover:text-neutral-900 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
@@ -88,7 +85,7 @@ export default function Navbar() {
             ))}
             <a
               href="#pricing"
-              className="mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-xl text-center font-semibold"
+              className="mt-4 px-6 py-3.5 bg-neutral-900 text-white rounded-2xl text-center font-semibold hover:bg-neutral-700 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Start Project
