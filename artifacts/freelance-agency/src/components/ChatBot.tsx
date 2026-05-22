@@ -3,10 +3,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 
 const quickReplies = [
-  { label: "💰 Pricing", response: "My plans start at ₹499 for a basic 1-page site, ₹999 for a full multi-section Pro website, and ₹1999+ for fully custom projects. All plans include mobile-responsive design and fast delivery!" },
-  { label: "🛠 Services", response: "I build Business Websites, Portfolio Sites, Landing Pages, Booking Systems, Firebase integrations, and WhatsApp integrations — all designed to convert visitors into real customers." },
-  { label: "📞 Contact", response: "Reach me on WhatsApp at +91 XXXXX XXXXX or email hello@example.com. I typically respond within a few hours!" },
-  { label: "⏱ Delivery", response: "Basic websites: 2–4 days. Pro sites: 3–5 days. Custom projects: timeline discussed upfront. I always deliver on time." },
+  {
+    label: "💰 Pricing",
+    response:
+      "My plans start at ₹499 for a basic 1-page site, ₹999 for a full multi-section Pro website, and ₹1999+ for fully custom projects. All plans include mobile-responsive design and fast delivery!",
+  },
+  {
+    label: "🛠 Services",
+    response:
+      "I build Business Websites, Portfolio Sites, Landing Pages, Booking Systems, Firebase integrations, and WhatsApp integrations — all designed to convert visitors into real customers.",
+  },
+  {
+    label: "📞 Contact",
+    response:
+      "Reach me on WhatsApp at +91 XXXXX XXXXX or email hello@example.com. I typically respond within a few hours!",
+  },
+  {
+    label: "⏱ Delivery",
+    response:
+      "Basic websites: 2–4 days. Pro sites: 3–5 days. Custom projects: timeline discussed upfront. I always deliver on time.",
+  },
 ];
 
 interface Message {
@@ -27,7 +43,12 @@ export default function ChatBot() {
       setTyping(true);
       setTimeout(() => {
         setTyping(false);
-        setMessages([{ from: "bot", text: "Hi! 👋 I'm the Studio assistant. How can I help you today?" }]);
+        setMessages([
+          {
+            from: "bot",
+            text: "Hi! 👋 I'm the tanudevworks assistant. How can I help you today?",
+          },
+        ]);
       }, 900);
     }
   }, [open]);
@@ -36,26 +57,32 @@ export default function ChatBot() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const sendQuick = (qr: typeof quickReplies[0]) => {
+  const sendQuick = (qr: (typeof quickReplies)[0]) => {
     setShowQuick(false);
-    setMessages(prev => [...prev, { from: "user", text: qr.label }]);
+    setMessages((prev) => [...prev, { from: "user", text: qr.label }]);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages(prev => [...prev, { from: "bot", text: qr.response }]);
+      setMessages((prev) => [...prev, { from: "bot", text: qr.response }]);
     }, 1100);
   };
 
   const sendMsg = () => {
     const text = input.trim();
     if (!text) return;
-    setMessages(prev => [...prev, { from: "user", text }]);
+    setMessages((prev) => [...prev, { from: "user", text }]);
     setInput("");
     setShowQuick(false);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages(prev => [...prev, { from: "bot", text: "Thanks for reaching out! For the fastest response, message me on WhatsApp at +91 XXXXX XXXXX. I'll get back to you soon! 🚀" }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: "Thanks for reaching out! For the fastest response, message me on WhatsApp at +91 XXXXX XXXXX. I'll get back to you soon! 🚀",
+        },
+      ]);
     }, 1300);
   };
 
@@ -76,13 +103,20 @@ export default function ChatBot() {
                 <Sparkles size={16} className="text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-white font-semibold text-sm">Studio Assistant</div>
+                <div className="text-white font-semibold text-sm">
+                  tanudevworks Assistant
+                </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  <span className="text-white/60 text-xs">Online — replies instantly</span>
+                  <span className="text-white/60 text-xs">
+                    Online — replies instantly
+                  </span>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white transition-colors p-1">
+              <button
+                onClick={() => setOpen(false)}
+                className="text-white/50 hover:text-white transition-colors p-1"
+              >
                 <X size={16} />
               </button>
             </div>
@@ -153,8 +187,8 @@ export default function ChatBot() {
             <div className="border-t border-neutral-100 p-3 flex gap-2 bg-white">
               <input
                 value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === "Enter" && sendMsg()}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMsg()}
                 placeholder="Type a message..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 transition-all"
               />
@@ -178,11 +212,23 @@ export default function ChatBot() {
       >
         <AnimatePresence mode="wait">
           {open ? (
-            <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <motion.div
+              key="x"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <X size={18} />
             </motion.div>
           ) : (
-            <motion.div key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <motion.div
+              key="chat"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <MessageCircle size={18} />
             </motion.div>
           )}
