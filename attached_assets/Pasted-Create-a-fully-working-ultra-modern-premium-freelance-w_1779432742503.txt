@@ -1,0 +1,282 @@
+Create a fully working ultra modern premium freelance web agency website for a young web developer from scratch.
+
+The website must be visually stunning, realistic, futuristic, elegant, smooth, and production-ready.
+
+IMPORTANT:
+
+* Use LIGHT MODE ONLY
+* No dark mode
+* No double cursor bug
+* No broken animations
+* No fake placeholder functionality
+* No overlapping sections
+* No console errors
+* Everything must be responsive on mobile, tablet, and desktop
+* Fully optimized for Replit deployment
+* Premium startup-agency style UI
+* Fast loading
+* Apple-level clean design
+* Modern typography
+* Glassmorphism effects
+* Soft gradients
+* Smooth transitions
+* Rich hover animations
+* Floating elements
+* Smooth scrolling
+* Premium shadows and spacing
+* Professional layout
+* Beautiful UI/UX
+* Subtle but premium animations
+* Realistic modern website feel
+
+TECH STACK:
+
+* HTML
+* CSS
+* JavaScript
+* Firebase integration ready
+* Replit compatible
+
+WEBSITE STRUCTURE:
+
+1. PREMIUM NAVBAR
+
+* Sticky glassmorphism navbar
+* Brand logo/text
+* Navigation links:
+  Home
+  About
+  Projects
+  Services
+  Pricing
+  Contact
+* Mobile hamburger menu
+* Smooth underline hover animations
+* CTA button:
+  “Start Project”
+
+2. HERO SECTION
+   Create a premium hero section with:
+   Heading:
+   “Affordable Modern Websites for Businesses & Creators”
+
+Subheading:
+“Custom responsive websites with modern UI, Firebase integration, smooth animations, and professional design.”
+
+Buttons:
+
+* View Projects
+* Order Website
+
+Add:
+
+* Animated floating gradient shapes
+* Mouse parallax effects
+* Smooth reveal animations
+* Professional modern illustration/mockup
+* Soft glowing gradients
+* Animated background elements
+
+3. AI CHATBOT FEATURE
+   Create a floating AI assistant chatbot UI similar to modern AI startup websites.
+
+Features:
+
+* Floating AI chat button
+* Expand/collapse animation
+* Smooth transitions
+* Typing animation
+* Glassmorphism UI
+* Modern light theme design
+* Working open/close functionality
+
+Welcome message:
+“Need help choosing a website plan?”
+
+Add quick reply buttons:
+
+* Pricing
+* Services
+* Contact
+* Delivery Time
+
+4. ABOUT SECTION
+   Create a professional about section for a young passionate web developer.
+
+Include:
+
+* Short modern introduction
+* Skill cards with premium hover animations:
+  HTML
+  CSS
+  JavaScript
+  Firebase
+  Responsive Design
+  Replit Development
+  UI/UX Design
+
+Add animated counters:
+
+* Projects Completed
+* Happy Clients
+* Fast Delivery
+
+5. PROJECTS SECTION
+   Create premium realistic project showcase cards with:
+
+* Modern website mockups
+* Hover zoom animations
+* Gradient overlays
+* Tags
+* Live Demo buttons
+* View Details buttons
+
+Projects:
+
+* Cafe Website
+* Gym Website
+* Portfolio Website
+* Startup Landing Page
+* Booking Website
+
+6. SERVICES SECTION
+   Create animated service cards for:
+
+* Business Websites
+* Portfolio Websites
+* Landing Pages
+* Booking Systems
+* Firebase Integration
+* WhatsApp Integration
+
+Add premium hover glow effects.
+
+7. PRICING SECTION
+   Create beautiful animated pricing cards with premium UI.
+
+BASIC — ₹499
+
+* 1 page website
+* Mobile responsive
+* Contact form
+* Fast delivery
+* Delivery in 2–4 days
+
+PRO — ₹999
+
+* Multi-section website
+* Better animations
+* WhatsApp integration
+* Firebase integration
+* Delivery in 3–5 days
+
+CUSTOM — ₹1999+
+
+* Fully custom website
+* Booking systems
+* Advanced UI
+* Database integration
+* Premium features
+
+IMPORTANT FUNCTIONALITY:
+When a customer clicks “Choose Plan”:
+Open a premium animated modal/popup.
+
+The popup must contain:
+
+* Selected plan
+* Modern confirmation message
+* Form fields:
+  Name
+  Business Name
+  WhatsApp Number
+  Website Type
+  Preferred Colors
+  Budget
+  Example Website Links
+  Extra Details
+
+After submitting:
+Show beautiful success animation/message:
+“Your request has been received successfully.”
+“Our team will contact you soon on WhatsApp.”
+“Estimated delivery: 2–4 days.”
+
+IMPORTANT:
+Store customer form submissions in:
+
+* Firebase Firestore
+  OR
+* Google Forms / Google Sheets
+
+The form must fully work.
+
+8. SOCIAL MEDIA SECTION
+   Create a premium social media showcase section.
+
+Include:
+
+* Instagram
+* GitHub
+* LinkedIn
+* WhatsApp
+* Email
+
+Add:
+
+* Animated social cards
+* Hover effects
+* Modern icons
+* Smooth transitions
+
+9. FLOATING WHATSAPP BUTTON
+   Add a fully working floating WhatsApp button at bottom right.
+
+Requirements:
+
+* Smooth animation
+* Opens WhatsApp instantly
+* Premium modern style
+* Mobile responsive
+
+10. CONTACT SECTION
+    Create a premium contact section with:
+
+* Floating labels
+* Input animations
+* Form validation
+* Success notifications
+* Smooth transitions
+
+11. FOOTER
+    Create a modern professional footer with:
+
+* Quick links
+* Services
+* Social links
+* Copyright text
+* Smooth hover animations
+
+DESIGN REQUIREMENTS:
+
+* Premium startup-agency style
+* Apple-inspired clean UI
+* Rich hover interactions
+* Soft gradients
+* Rounded corners
+* Modern spacing
+* Elegant typography
+* Realistic layout
+* Subtle premium motion effects
+* Fully responsive
+* Production-ready
+* No bugs
+
+IMPORTANT:
+
+* Write clean organized code
+* Add comments explaining important sections
+* Make all animations smooth and optimized
+* Ensure the website looks premium and realistic
+* Ensure all buttons and forms work properly
+* Make the final output look like a real professional web agency website
