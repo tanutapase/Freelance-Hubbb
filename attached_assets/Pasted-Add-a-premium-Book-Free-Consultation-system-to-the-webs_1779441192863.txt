@@ -1,0 +1,116 @@
+Add a premium “Book Free Consultation” system to the website.
+
+━━━━━━━━━━━━━━━━━━
+BOOK CONSULTATION SECTION
+━━━━━━━━━━━━━━━━━━
+
+Create a futuristic premium consultation booking section for TanuDevWorks.
+
+Purpose:
+Allow potential clients to book a free consultation call or website discussion professionally.
+
+Style:
+- clean premium aesthetic
+- modern freelancer/agency vibe
+- glassmorphism UI
+- smooth animations
+- elegant spacing
+- responsive layout
+
+━━━━━━━━━━━━━━━━━━
+SECTION CONTENT
+━━━━━━━━━━━━━━━━━━
+
+Heading:
+“Book a Free Consultation”
+
+Subheading:
+“Let’s discuss your website, brand, startup, or digital idea professionally.”
+
+Add:
+- premium CTA button
+- smooth hover effects
+- glowing accents
+- animated cards/icons
+
+━━━━━━━━━━━━━━━━━━
+BOOKING FORM
+━━━━━━━━━━━━━━━━━━
+
+Form fields:
+- Full Name
+- Business / Brand Name
+- Phone Number
+- Email Address
+- Website Type Needed
+- Budget Range
+- Project Details
+
+Optional dropdown:
+- Portfolio Website
+- Ecommerce Website
+- Business Website
+- Landing Page
+- Redesign
+- Custom Project
+
+━━━━━━━━━━━━━━━━━━
+FIREBASE INTEGRATION
+━━━━━━━━━━━━━━━━━━
+
+Save all consultation requests into Firebase Firestore.
+
+Collection:
+consultations
+
+Requirements:
+- proper async handling
+- loading states
+- validation
+- success/error feedback
+- prevent duplicate submissions
+
+━━━━━━━━━━━━━━━━━━
+SUCCESS POPUP
+━━━━━━━━━━━━━━━━━━
+
+After successful form submission:
+show premium animated popup/modal.
+
+Message example:
+
+“Consultation Request Submitted Successfully 🎉”
+
+Also include:
+- thank-you message
+- WhatsApp follow-up info
+- smooth premium animation
+- auto-close behavior
+
+━━━━━━━━━━━━━━━━━━
+WHATSAPP INTEGRATION
+━━━━━━━━━━━━━━━━━━
+
+After submission:
+inform users that project discussion and updates can continue on WhatsApp.
+
+Use:
+- floating WhatsApp button
+- pre-filled inquiry message
+- premium hover effects
+
+━━━━━━━━━━━━━━━━━━
+UI/UX REQUIREMENTS
+━━━━━━━━━━━━━━━━━━
+
+Keep the current premium white minimal aesthetic.
+
+Add:
+- subtle gradients
+- smooth transitions
+- luxury typography
+- clean responsive spacing
+- modern form design
+
+Do NOT redesign the whole website.
+Only integrate the consultation system professionally into the existing design.

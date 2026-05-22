@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X, Star, Send, CheckCircle2, Loader2, MessageCircle } from "lucide-react";
+import { Check, X, Star, Send, CheckCircle2, Loader2, MessageCircle, Globe, Shield } from "lucide-react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-const WA_URL = "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20website%20project.";
+const WA_URL =
+  "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20website%20project.";
 
 const plans = [
   {
     name: "Starter",
     price: "₹499",
     priceValue: "₹499",
-    description: "Perfect for small businesses getting started online.",
+    description: "Perfect for small businesses and individuals getting started online.",
     features: [
       "1-page responsive website",
       "Contact form included",
       "Mobile-first design",
       "Basic smooth animations",
+      "Deployed subdomain included",
       "2–4 day delivery",
       "1 free revision",
     ],
@@ -26,12 +28,13 @@ const plans = [
     name: "Pro",
     price: "₹999",
     priceValue: "₹999",
-    description: "Most popular for businesses ready to stand out.",
+    description: "Most popular for businesses ready to stand out and grow.",
     features: [
       "Multi-section website",
       "Premium animations",
       "WhatsApp integration",
       "Firebase backend",
+      "Deployed subdomain included",
       "3–5 day delivery",
       "3 free revisions",
     ],
@@ -41,12 +44,13 @@ const plans = [
     name: "Premium",
     price: "₹1999+",
     priceValue: "₹1999+",
-    description: "Advanced custom projects with unique features.",
+    description: "Advanced custom projects with unique features and systems.",
     features: [
       "Fully custom website",
       "Booking / dashboard system",
       "Advanced UI/UX design",
       "Database & auth integration",
+      "Deployed subdomain included",
       "Timeline discussed upfront",
       "Unlimited revisions",
     ],
@@ -73,8 +77,26 @@ const preferredStyles = [
   "Dark & Premium",
 ];
 
+const deploymentFeatures = [
+  {
+    icon: Globe,
+    title: "Free Subdomain Included",
+    desc: "Every project ships on a premium subdomain like yourname.vercel.app or yourname.replit.app — live from day one.",
+  },
+  {
+    icon: Shield,
+    title: "Custom Domain Ready",
+    desc: "Connect your own .com, .in, or .store domain anytime. Setup support included — domain purchase discussed separately.",
+  },
+  {
+    icon: Star,
+    title: "SEO-Ready & Scalable",
+    desc: "Production-grade hosting with fast load times, clean code structure, and room to scale as your business grows.",
+  },
+];
+
 interface ModalProps {
-  plan: typeof plans[0] | null;
+  plan: (typeof plans)[0] | null;
   onClose: () => void;
 }
 
@@ -95,7 +117,7 @@ function OrderModal({ plan, onClose }: ModalProps) {
 
   if (!plan) return null;
 
-  const set = (key: string, val: string) => setForm(f => ({ ...f, [key]: val }));
+  const set = (key: string, val: string) => setForm((f) => ({ ...f, [key]: val }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +140,6 @@ function OrderModal({ plan, onClose }: ModalProps) {
     };
 
     try {
-      // 12-second timeout so it never hangs forever
       await Promise.race([
         addDoc(collection(db, "orders"), orderData),
         new Promise<never>((_, reject) =>
@@ -127,10 +148,7 @@ function OrderModal({ plan, onClose }: ModalProps) {
       ]);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "";
-      if (msg === "timeout") {
-        // Still show success — WhatsApp follow-up is the primary channel
-        console.warn("Firebase timeout — order data:", orderData);
-      } else {
+      if (msg !== "timeout") {
         setLoading(false);
         setError("Couldn't submit. Please try again or reach out on WhatsApp.");
         return;
@@ -143,7 +161,8 @@ function OrderModal({ plan, onClose }: ModalProps) {
 
   const inputClass =
     "w-full px-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 transition-all text-sm placeholder:text-neutral-400";
-  const labelClass = "text-xs font-semibold text-neutral-500 mb-1.5 block uppercase tracking-wide";
+  const labelClass =
+    "text-xs font-semibold text-neutral-500 mb-1.5 block uppercase tracking-wide";
 
   return (
     <AnimatePresence>
@@ -152,7 +171,9 @@ function OrderModal({ plan, onClose }: ModalProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-sm"
-        onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 16 }}
@@ -171,11 +192,18 @@ function OrderModal({ plan, onClose }: ModalProps) {
                         <Star size={9} fill="currentColor" /> Popular
                       </span>
                     )}
-                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">Order Request</span>
+                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
+                      Order Request
+                    </span>
                   </div>
-                  <h3 className="text-xl font-bold text-neutral-900">{plan.name} Plan — {plan.price}</h3>
+                  <h3 className="text-xl font-bold text-neutral-900">
+                    {plan.name} Plan — {plan.price}
+                  </h3>
                 </div>
-                <button onClick={onClose} className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors">
+                <button
+                  onClick={onClose}
+                  className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors"
+                >
                   <X size={15} />
                 </button>
               </div>
@@ -183,33 +211,72 @@ function OrderModal({ plan, onClose }: ModalProps) {
               <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className={labelClass}>Full Name *</label>
-                  <input required value={form.name} onChange={e => set("name", e.target.value)} placeholder="John Doe" className={inputClass} />
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(e) => set("name", e.target.value)}
+                    placeholder="John Doe"
+                    className={inputClass}
+                  />
                 </div>
                 <div>
                   <label className={labelClass}>Business Name</label>
-                  <input value={form.businessName} onChange={e => set("businessName", e.target.value)} placeholder="My Business" className={inputClass} />
+                  <input
+                    value={form.businessName}
+                    onChange={(e) => set("businessName", e.target.value)}
+                    placeholder="My Business"
+                    className={inputClass}
+                  />
                 </div>
                 <div>
                   <label className={labelClass}>WhatsApp Number *</label>
-                  <input required type="tel" value={form.whatsapp} onChange={e => set("whatsapp", e.target.value)} placeholder="+91 84335 53501" className={inputClass} />
+                  <input
+                    required
+                    type="tel"
+                    value={form.whatsapp}
+                    onChange={(e) => set("whatsapp", e.target.value)}
+                    placeholder="+91 XXXXX XXXXX"
+                    className={inputClass}
+                  />
                 </div>
                 <div>
                   <label className={labelClass}>Website Type *</label>
-                  <select required value={form.websiteType} onChange={e => set("websiteType", e.target.value)} className={inputClass}>
+                  <select
+                    required
+                    value={form.websiteType}
+                    onChange={(e) => set("websiteType", e.target.value)}
+                    className={inputClass}
+                  >
                     <option value="">Select type...</option>
-                    {websiteTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                    {websiteTypes.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className={labelClass}>Preferred Style</label>
-                  <select value={form.preferredStyle} onChange={e => set("preferredStyle", e.target.value)} className={inputClass}>
+                  <select
+                    value={form.preferredStyle}
+                    onChange={(e) => set("preferredStyle", e.target.value)}
+                    className={inputClass}
+                  >
                     <option value="">Select style...</option>
-                    {preferredStyles.map(s => <option key={s} value={s}>{s}</option>)}
+                    {preferredStyles.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className={labelClass}>Budget</label>
-                  <select value={form.budget} onChange={e => set("budget", e.target.value)} className={inputClass}>
+                  <select
+                    value={form.budget}
+                    onChange={(e) => set("budget", e.target.value)}
+                    className={inputClass}
+                  >
                     <option value="₹499">₹499 — Starter</option>
                     <option value="₹999">₹999 — Pro</option>
                     <option value="₹1999+">₹1999+ — Premium</option>
@@ -217,29 +284,58 @@ function OrderModal({ plan, onClose }: ModalProps) {
                 </div>
                 <div className="md:col-span-2">
                   <label className={labelClass}>Example Website Links</label>
-                  <textarea rows={2} value={form.exampleLinks} onChange={e => set("exampleLinks", e.target.value)} placeholder="https://example.com (paste any sites you like for reference)" className={`${inputClass} resize-none`} />
+                  <textarea
+                    rows={2}
+                    value={form.exampleLinks}
+                    onChange={(e) => set("exampleLinks", e.target.value)}
+                    placeholder="https://example.com (paste any sites you like for reference)"
+                    className={`${inputClass} resize-none`}
+                  />
                 </div>
                 <div className="md:col-span-2">
                   <label className={labelClass}>Additional Details</label>
-                  <textarea rows={3} value={form.details} onChange={e => set("details", e.target.value)} placeholder="Tell me about your project, goals, or any specific requirements..." className={`${inputClass} resize-none`} />
+                  <textarea
+                    rows={3}
+                    value={form.details}
+                    onChange={(e) => set("details", e.target.value)}
+                    placeholder="Tell me about your project, goals, or any specific requirements..."
+                    className={`${inputClass} resize-none`}
+                  />
                 </div>
 
                 {error && (
                   <div className="md:col-span-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 flex items-center gap-2">
                     <span>{error}</span>
-                    <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="ml-auto text-green-600 font-semibold underline whitespace-nowrap">WhatsApp Instead</a>
+                    <a
+                      href={WA_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-auto text-green-600 font-semibold underline whitespace-nowrap"
+                    >
+                      WhatsApp Instead
+                    </a>
                   </div>
                 )}
 
                 <div className="md:col-span-2">
-                  <button type="submit" disabled={loading} className="w-full py-4 bg-neutral-900 text-white rounded-2xl font-semibold text-base hover:bg-neutral-700 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 shadow-sm">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-4 bg-neutral-900 text-white rounded-2xl font-semibold text-base hover:bg-neutral-700 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 shadow-sm"
+                  >
                     {loading ? (
-                      <><Loader2 size={18} className="animate-spin" /> Submitting Request...</>
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Submitting Request...
+                      </>
                     ) : (
-                      <><Send size={16} /> Send Order Request</>
+                      <>
+                        <Send size={16} /> Send Order Request
+                      </>
                     )}
                   </button>
-                  <p className="text-center text-xs text-neutral-400 mt-3">We'll reach out on WhatsApp within a few hours.</p>
+                  <p className="text-center text-xs text-neutral-400 mt-3">
+                    We'll reach out on WhatsApp within a few hours.
+                  </p>
                 </div>
               </form>
             </>
@@ -259,9 +355,15 @@ function OrderModal({ plan, onClose }: ModalProps) {
               </motion.div>
 
               <div>
-                <h3 className="text-2xl font-bold text-neutral-900 mb-2">Order Placed Successfully! 🎉</h3>
+                <h3 className="text-2xl font-bold text-neutral-900 mb-2">
+                  Order Placed Successfully! 🎉
+                </h3>
                 <p className="text-neutral-500 leading-relaxed max-w-sm">
-                  Your order request has been received. <strong className="text-neutral-700">TanuDevWorks will contact you on WhatsApp shortly</strong> to discuss your project and get started.
+                  Your order request has been received.{" "}
+                  <strong className="text-neutral-700">
+                    TanuDevWorks will contact you on WhatsApp shortly
+                  </strong>{" "}
+                  to discuss your project and get started.
                 </p>
               </div>
 
@@ -270,8 +372,11 @@ function OrderModal({ plan, onClose }: ModalProps) {
                   "Order confirmed & recorded",
                   "WhatsApp update coming soon",
                   "100% satisfaction guarantee",
-                ].map(text => (
-                  <div key={text} className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-xl border border-neutral-100">
+                ].map((text) => (
+                  <div
+                    key={text}
+                    className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-xl border border-neutral-100"
+                  >
                     <CheckCircle2 size={14} className="text-green-500 shrink-0" />
                     <span className="text-sm text-neutral-600">{text}</span>
                   </div>
@@ -288,7 +393,10 @@ function OrderModal({ plan, onClose }: ModalProps) {
                   <MessageCircle size={15} />
                   Chat on WhatsApp
                 </a>
-                <button onClick={onClose} className="px-6 py-3 bg-neutral-100 text-neutral-700 rounded-xl font-semibold hover:bg-neutral-200 transition-colors text-sm">
+                <button
+                  onClick={onClose}
+                  className="px-6 py-3 bg-neutral-100 text-neutral-700 rounded-xl font-semibold hover:bg-neutral-200 transition-colors text-sm"
+                >
                   Close
                 </button>
               </div>
@@ -301,23 +409,41 @@ function OrderModal({ plan, onClose }: ModalProps) {
 }
 
 export default function Pricing() {
-  const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<(typeof plans)[0] | null>(null);
 
   return (
     <section id="pricing" className="py-24 bg-neutral-50 relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-12 relative">
         <div className="text-center max-w-xl mx-auto mb-14">
-          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3"
+          >
             Transparent Pricing
           </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-3xl md:text-4xl font-bold mb-4 text-neutral-900">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-4xl font-bold mb-4 text-neutral-900"
+          >
             Simple, Honest Prices
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="text-neutral-500 text-base">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="text-neutral-500 text-base"
+          >
             No hidden fees. Pay only when you're happy with the result.
           </motion.p>
         </div>
 
+        {/* Plans */}
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
@@ -339,14 +465,18 @@ export default function Pricing() {
               )}
 
               <div className={`p-7 pb-0 ${plan.popular ? "pt-9" : ""}`}>
-                <div className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3">{plan.name}</div>
-                <div className="text-4xl font-bold text-neutral-900 mb-2 tracking-tight">{plan.price}</div>
+                <div className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3">
+                  {plan.name}
+                </div>
+                <div className="text-4xl font-bold text-neutral-900 mb-2 tracking-tight">
+                  {plan.price}
+                </div>
                 <p className="text-sm text-neutral-500 leading-relaxed">{plan.description}</p>
               </div>
 
               <div className="p-7 flex flex-col flex-1">
                 <ul className="flex flex-col gap-3 mb-8">
-                  {plan.features.map(f => (
+                  {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-sm">
                       <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
                         <Check size={11} className="text-neutral-700" strokeWidth={2.5} />
@@ -370,23 +500,55 @@ export default function Pricing() {
           ))}
         </div>
 
-        {/* Trust note */}
+        {/* Deployment info */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-neutral-500"
+          transition={{ delay: 0.25 }}
+          className="mt-14 max-w-4xl mx-auto"
         >
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
-            Custom pricing available — <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="text-green-600 font-semibold hover:underline">WhatsApp for a quote</a>
-          </span>
-          <span className="hidden sm:block w-1.5 h-1.5 rounded-full bg-neutral-200" />
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
-            Custom domain connection available for all clients
-          </span>
+          <div className="bg-white border border-neutral-100 rounded-2xl p-7">
+            <div className="flex items-center gap-2 mb-6">
+              <Globe size={16} className="text-blue-600" />
+              <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider">
+                Deployment & Hosting — What's Included
+              </h3>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-5">
+              {deploymentFeatures.map((f, i) => {
+                const Icon = f.icon;
+                return (
+                  <div key={i} className="flex gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-600 shrink-0 mt-0.5">
+                      <Icon size={14} />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-800 mb-1">{f.title}</div>
+                      <p className="text-xs text-neutral-500 leading-relaxed">{f.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-5 pt-5 border-t border-neutral-50 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="text-xs text-neutral-400 text-center sm:text-left">
+                Custom pricing available for larger projects —{" "}
+                <a
+                  href={WA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 font-semibold hover:underline"
+                >
+                  WhatsApp for a free quote
+                </a>
+              </p>
+              <span className="text-xs text-neutral-300">·</span>
+              <p className="text-xs text-neutral-400 text-center sm:text-right">
+                Domain names (.com / .in / .store) purchased separately — setup support included
+              </p>
+            </div>
+          </div>
         </motion.div>
       </div>
 

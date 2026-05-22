@@ -2,24 +2,29 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 
-const WA_LINK = "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20project.";
+const WA_LINK =
+  "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20project.";
 
 const quickReplies = [
   {
     label: "💰 Pricing",
-    response: "Plans start at ₹499 (Starter - 1 page), ₹999 (Pro - multi-section with Firebase), and ₹1999+ (Premium - fully custom). All include mobile-responsive design and fast delivery!",
+    response:
+      "Plans start at ₹499 (Starter – 1 page), ₹999 (Pro – multi-section + Firebase), and ₹1999+ (Premium – fully custom). All include mobile-responsive design and fast delivery!",
   },
   {
     label: "🛠 Services",
-    response: "I build Business Websites, Ecommerce Stores, Portfolio Sites, Landing Pages, Firebase Backend, AI Chatbots, WhatsApp Integration, and Website Redesigns — all designed to convert visitors into clients.",
+    response:
+      "I build Business Websites, Ecommerce Stores, Portfolio Sites, Landing Pages, Firebase Backend, AI Chatbots, WhatsApp Integration, and Website Redesigns — all designed to convert visitors into clients.",
   },
   {
     label: "📞 Contact",
-    response: `Reach TanuDevWorks on WhatsApp: +91 84335 53501 or email tanudevworks@gmail.com. Based in Mumbai, Maharashtra. I typically respond within a few hours!`,
+    response:
+      "WhatsApp: +91 84335 53501 · Email: tanudevworks@gmail.com · Based in Mumbai, Maharashtra. I typically respond within a few hours!",
   },
   {
     label: "⏱ Delivery",
-    response: "Starter websites: 2–4 days. Pro sites: 3–5 days. Premium/custom projects: timeline discussed upfront and always honoured. You'll receive preview updates along the way.",
+    response:
+      "Starter: 2–4 days. Pro: 3–5 days. Premium/custom: timeline discussed upfront and always honoured. You'll receive preview updates along the way.",
   },
 ];
 
@@ -41,7 +46,9 @@ export default function ChatBot() {
       setTyping(true);
       setTimeout(() => {
         setTyping(false);
-        setMessages([{ from: "bot", text: "Hi! 👋 I'm the TanuDevWorks assistant. How can I help you today?" }]);
+        setMessages([
+          { from: "bot", text: "Hi! 👋 I'm the TanuDevWorks assistant. How can I help you today?" },
+        ]);
       }, 900);
     }
   }, [open]);
@@ -50,53 +57,60 @@ export default function ChatBot() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const sendQuick = (qr: typeof quickReplies[0]) => {
+  const sendQuick = (qr: (typeof quickReplies)[0]) => {
     setShowQuick(false);
-    setMessages(prev => [...prev, { from: "user", text: qr.label }]);
+    setMessages((prev) => [...prev, { from: "user", text: qr.label }]);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages(prev => [...prev, { from: "bot", text: qr.response }]);
+      setMessages((prev) => [...prev, { from: "bot", text: qr.response }]);
     }, 1100);
   };
 
   const sendMsg = () => {
     const text = input.trim();
     if (!text) return;
-    setMessages(prev => [...prev, { from: "user", text }]);
+    setMessages((prev) => [...prev, { from: "user", text }]);
     setInput("");
     setShowQuick(false);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         {
           from: "bot",
-          text: `Thanks for reaching out! For the fastest response, WhatsApp me directly at +91 84335 53501 — or click the green button on the right. I'll get back to you soon! 🚀`,
+          text: "Thanks for your message! For the fastest reply, WhatsApp me at +91 84335 53501 — or click the green button below. I'll get back to you soon! 🚀",
         },
       ]);
     }, 1300);
   };
 
+  // Position: chatbot button sits 16px above the WhatsApp button (52px tall, bottom-6 = 24px)
+  // WA top = 24 + 52 = 76px from bottom → chat button bottom = 76 + 16 = 92px
+  const CHAT_BTN_BOTTOM = "bottom-[92px]";
+  // Window bottom = chat button bottom + chat button height (48px) + 12px gap = ~152px
+  const WINDOW_BOTTOM = "bottom-[152px]";
+
   return (
     <>
+      {/* Chat window */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 16 }}
+            initial={{ opacity: 0, scale: 0.92, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 16 }}
+            exit={{ opacity: 0, scale: 0.92, y: 12 }}
             transition={{ type: "spring", stiffness: 320, damping: 28 }}
-            className="fixed bottom-[88px] right-[76px] z-50 w-[340px] md:w-[380px] bg-white rounded-3xl border border-neutral-200 shadow-[0_8px_48px_rgba(0,0,0,0.13)] overflow-hidden flex flex-col"
-            style={{ maxHeight: "500px" }}
+            className={`fixed ${WINDOW_BOTTOM} right-6 z-[59] w-[340px] md:w-[380px] bg-white rounded-3xl border border-neutral-200 shadow-[0_8px_48px_rgba(0,0,0,0.13)] overflow-hidden flex flex-col`}
+            style={{ maxHeight: "440px" }}
           >
             {/* Header */}
-            <div className="bg-neutral-900 px-5 py-4 flex items-center gap-3">
+            <div className="bg-neutral-900 px-5 py-4 flex items-center gap-3 shrink-0">
               <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                 <Sparkles size={16} className="text-white" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <div className="text-white font-bold text-sm">TanuDevWorks AI</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -107,17 +121,20 @@ export default function ChatBot() {
                 href={WA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-white/60 hover:text-white transition-colors underline underline-offset-2"
+                className="text-xs text-white/60 hover:text-white transition-colors underline underline-offset-2 shrink-0"
               >
                 WhatsApp
               </a>
-              <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white transition-colors p-1 ml-1">
+              <button
+                onClick={() => setOpen(false)}
+                className="text-white/50 hover:text-white transition-colors p-1 ml-1 shrink-0"
+              >
                 <X size={15} />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 min-h-0 bg-neutral-50/50">
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 bg-neutral-50/50 min-h-0">
               <AnimatePresence initial={false}>
                 {messages.map((msg, i) => (
                   <motion.div
@@ -176,16 +193,15 @@ export default function ChatBot() {
                   ))}
                 </motion.div>
               )}
-
               <div ref={endRef} />
             </div>
 
             {/* Input */}
-            <div className="border-t border-neutral-100 p-3 flex gap-2 bg-white">
+            <div className="border-t border-neutral-100 p-3 flex gap-2 bg-white shrink-0">
               <input
                 value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === "Enter" && sendMsg()}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMsg()}
                 placeholder="Type a message..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 transition-all"
               />
@@ -200,15 +216,25 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
+      {/* Chat toggle button — sits above WhatsApp */}
       <motion.button
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-[88px] right-[76px] z-50 w-12 h-12 rounded-full bg-neutral-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
-        aria-label="Open chat"
-        style={{ display: open ? "none" : "flex" }}
+        aria-label={open ? "Close chat" : "Open chat"}
+        className={`fixed ${CHAT_BTN_BOTTOM} right-6 z-[60] w-[52px] h-[52px] rounded-full bg-neutral-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.22)] flex items-center justify-center`}
       >
-        <MessageCircle size={18} />
+        <AnimatePresence mode="wait" initial={false}>
+          {open ? (
+            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <X size={18} />
+            </motion.span>
+          ) : (
+            <motion.span key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <MessageCircle size={18} />
+            </motion.span>
+          )}
+        </AnimatePresence>
       </motion.button>
     </>
   );
