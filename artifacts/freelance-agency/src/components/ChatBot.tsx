@@ -2,26 +2,24 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 
+const WA_LINK = "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20project.";
+
 const quickReplies = [
   {
     label: "💰 Pricing",
-    response:
-      "My plans start at ₹499 for a basic 1-page site, ₹999 for a full multi-section Pro website, and ₹1999+ for fully custom projects. All plans include mobile-responsive design and fast delivery!",
+    response: "Plans start at ₹499 (Starter - 1 page), ₹999 (Pro - multi-section with Firebase), and ₹1999+ (Premium - fully custom). All include mobile-responsive design and fast delivery!",
   },
   {
     label: "🛠 Services",
-    response:
-      "I build Business Websites, Portfolio Sites, Landing Pages, Booking Systems, Firebase integrations, and WhatsApp integrations — all designed to convert visitors into real customers.",
+    response: "I build Business Websites, Ecommerce Stores, Portfolio Sites, Landing Pages, Firebase Backend, AI Chatbots, WhatsApp Integration, and Website Redesigns — all designed to convert visitors into clients.",
   },
   {
     label: "📞 Contact",
-    response:
-      "Reach me on WhatsApp at +91 XXXXX XXXXX or email hello@example.com. I typically respond within a few hours!",
+    response: `Reach TanuDevWorks on WhatsApp: +91 84335 53501 or email tanudevworks@gmail.com. Based in Mumbai, Maharashtra. I typically respond within a few hours!`,
   },
   {
     label: "⏱ Delivery",
-    response:
-      "Basic websites: 2–4 days. Pro sites: 3–5 days. Custom projects: timeline discussed upfront. I always deliver on time.",
+    response: "Starter websites: 2–4 days. Pro sites: 3–5 days. Premium/custom projects: timeline discussed upfront and always honoured. You'll receive preview updates along the way.",
   },
 ];
 
@@ -43,12 +41,7 @@ export default function ChatBot() {
       setTyping(true);
       setTimeout(() => {
         setTyping(false);
-        setMessages([
-          {
-            from: "bot",
-            text: "Hi! 👋 I'm the tanudevworks assistant. How can I help you today?",
-          },
-        ]);
+        setMessages([{ from: "bot", text: "Hi! 👋 I'm the TanuDevWorks assistant. How can I help you today?" }]);
       }, 900);
     }
   }, [open]);
@@ -57,30 +50,30 @@ export default function ChatBot() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const sendQuick = (qr: (typeof quickReplies)[0]) => {
+  const sendQuick = (qr: typeof quickReplies[0]) => {
     setShowQuick(false);
-    setMessages((prev) => [...prev, { from: "user", text: qr.label }]);
+    setMessages(prev => [...prev, { from: "user", text: qr.label }]);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages((prev) => [...prev, { from: "bot", text: qr.response }]);
+      setMessages(prev => [...prev, { from: "bot", text: qr.response }]);
     }, 1100);
   };
 
   const sendMsg = () => {
     const text = input.trim();
     if (!text) return;
-    setMessages((prev) => [...prev, { from: "user", text }]);
+    setMessages(prev => [...prev, { from: "user", text }]);
     setInput("");
     setShowQuick(false);
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages((prev) => [
+      setMessages(prev => [
         ...prev,
         {
           from: "bot",
-          text: "Thanks for reaching out! For the fastest response, message me on WhatsApp at +91 XXXXX XXXXX. I'll get back to you soon! 🚀",
+          text: `Thanks for reaching out! For the fastest response, WhatsApp me directly at +91 84335 53501 — or click the green button on the right. I'll get back to you soon! 🚀`,
         },
       ]);
     }, 1300);
@@ -95,32 +88,35 @@ export default function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 16 }}
             transition={{ type: "spring", stiffness: 320, damping: 28 }}
-            className="fixed bottom-[88px] right-6 z-50 w-[340px] md:w-[380px] bg-white rounded-3xl border border-neutral-200 shadow-[0_8px_48px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col"
+            className="fixed bottom-[88px] right-[76px] z-50 w-[340px] md:w-[380px] bg-white rounded-3xl border border-neutral-200 shadow-[0_8px_48px_rgba(0,0,0,0.13)] overflow-hidden flex flex-col"
             style={{ maxHeight: "500px" }}
           >
+            {/* Header */}
             <div className="bg-neutral-900 px-5 py-4 flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                 <Sparkles size={16} className="text-white" />
               </div>
               <div className="flex-1">
-                <div className="text-white font-semibold text-sm">
-                  tanudevworks Assistant
-                </div>
+                <div className="text-white font-bold text-sm">TanuDevWorks AI</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  <span className="text-white/60 text-xs">
-                    Online — replies instantly
-                  </span>
+                  <span className="text-white/60 text-xs">Online — replies instantly</span>
                 </div>
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="text-white/50 hover:text-white transition-colors p-1"
+              <a
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-white/60 hover:text-white transition-colors underline underline-offset-2"
               >
-                <X size={16} />
+                WhatsApp
+              </a>
+              <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white transition-colors p-1 ml-1">
+                <X size={15} />
               </button>
             </div>
 
+            {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 min-h-0 bg-neutral-50/50">
               <AnimatePresence initial={false}>
                 {messages.map((msg, i) => (
@@ -184,11 +180,12 @@ export default function ChatBot() {
               <div ref={endRef} />
             </div>
 
+            {/* Input */}
             <div className="border-t border-neutral-100 p-3 flex gap-2 bg-white">
               <input
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMsg()}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && sendMsg()}
                 placeholder="Type a message..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 transition-all"
               />
@@ -207,32 +204,11 @@ export default function ChatBot() {
         onClick={() => setOpen(!open)}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-[88px] right-[84px] z-50 w-12 h-12 rounded-full bg-neutral-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
+        className="fixed bottom-[88px] right-[76px] z-50 w-12 h-12 rounded-full bg-neutral-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.2)] flex items-center justify-center"
         aria-label="Open chat"
+        style={{ display: open ? "none" : "flex" }}
       >
-        <AnimatePresence mode="wait">
-          {open ? (
-            <motion.div
-              key="x"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <X size={18} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <MessageCircle size={18} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <MessageCircle size={18} />
       </motion.button>
     </>
   );

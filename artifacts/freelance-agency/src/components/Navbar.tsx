@@ -25,16 +25,19 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-white/80 backdrop-blur-xl border-b border-neutral-100 shadow-sm py-3"
+          ? "bg-white/85 backdrop-blur-xl border-b border-neutral-100 shadow-sm py-3"
           : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center">
-            <span className="text-white text-xs font-bold tracking-tight">S.</span>
+          <div className="w-9 h-9 rounded-xl bg-neutral-900 flex items-center justify-center shadow-sm group-hover:bg-neutral-700 transition-colors">
+            <span className="text-white text-xs font-black tracking-tight leading-none">TD</span>
           </div>
-          <span className="font-bold text-lg tracking-tight text-neutral-900">tanudevworks</span>
+          <div className="flex flex-col leading-none">
+            <span className="font-black text-base tracking-tight text-neutral-900">TanuDevWorks</span>
+            <span className="text-[10px] text-neutral-400 font-medium tracking-wider uppercase">Web Agency</span>
+          </div>
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
