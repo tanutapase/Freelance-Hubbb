@@ -6,50 +6,50 @@ import { SiWhatsapp } from "react-icons/si";
 const socials = [
   {
     platform: "Instagram",
-    handle: "@yourusername",
-    description: "Follow for design inspiration and project updates",
+    handle: "@tanudevworks",
+    description: "Follow for design inspiration, project showcases and updates",
     icon: Instagram,
-    href: "https://instagram.com",
+    href: "https://instagram.com/tanudevworks",
     iconColor: "text-pink-600",
     iconBg: "bg-pink-50",
     border: "hover:border-pink-200",
   },
   {
     platform: "GitHub",
-    handle: "@yourusername",
-    description: "Check out my open-source projects and code",
+    handle: "@tanudevworks",
+    description: "Browse open-source projects and code samples",
     icon: Github,
-    href: "https://github.com",
+    href: "https://github.com/tanudevworks",
     iconColor: "text-neutral-800",
     iconBg: "bg-neutral-100",
     border: "hover:border-neutral-300",
   },
   {
     platform: "LinkedIn",
-    handle: "Your Name",
-    description: "Connect professionally and see my experience",
+    handle: "TanuDevWorks",
+    description: "Connect professionally and see work experience",
     icon: Linkedin,
-    href: "https://linkedin.com",
+    href: "https://linkedin.com/in/tanudevworks",
     iconColor: "text-blue-600",
     iconBg: "bg-blue-50",
     border: "hover:border-blue-200",
   },
   {
     platform: "WhatsApp",
-    handle: "+91 XXXXX XXXXX",
-    description: "Chat directly and discuss your project needs",
+    handle: "+91 84335 53501",
+    description: "Chat directly to discuss your project — fastest response",
     icon: SiWhatsapp,
-    href: "https://wa.me/91XXXXXXXXXX",
+    href: "https://wa.me/918433553501?text=Hi%20TanuDevWorks!%20I%27d%20like%20to%20discuss%20a%20project.",
     iconColor: "text-green-600",
     iconBg: "bg-green-50",
     border: "hover:border-green-200",
   },
   {
     platform: "Email",
-    handle: "hello@example.com",
-    description: "Send a detailed message for bigger projects",
+    handle: "tanudevworks@gmail.com",
+    description: "Send a detailed inquiry for bigger projects",
     icon: Mail,
-    href: "mailto:hello@example.com",
+    href: "mailto:tanudevworks@gmail.com",
     iconColor: "text-slate-600",
     iconBg: "bg-slate-50",
     border: "hover:border-slate-200",
@@ -61,31 +61,14 @@ export default function SocialSection() {
     <section id="social" className="py-24 bg-white">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-xl mx-auto mb-14">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3"
-          >
+          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3">
             Stay Connected
           </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-bold mb-4 text-neutral-900"
-          >
-            Find Me Online
+          <motion.h2 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-3xl md:text-4xl font-bold mb-4 text-neutral-900">
+            Find TanuDevWorks Online
           </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 }}
-            className="text-neutral-500 text-base"
-          >
-            Whether you want to collaborate, follow my work, or just say hi — I'm always easy to reach.
+          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="text-neutral-500 text-base">
+            Whether you want to collaborate, follow the work, or just say hi — always easy to reach.
           </motion.p>
         </div>
 
