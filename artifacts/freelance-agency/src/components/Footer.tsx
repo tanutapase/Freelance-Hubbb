@@ -28,7 +28,7 @@ export default function Footer() {
               <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
                 <span className="text-white text-xs font-bold">S.</span>
               </div>
-              <span className="font-bold text-lg tracking-tight">Studio</span>
+              <span className="font-bold text-lg tracking-tight">tanudevworks</span>
             </div>
             <p className="text-neutral-400 text-sm leading-relaxed mb-6">
               Premium websites for modern businesses and creators. Built fast, designed beautifully.
@@ -101,7 +101,7 @@ export default function Footer() {
 
         <div className="border-t border-white/8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-neutral-500">
-            © {new Date().getFullYear()} Studio. All rights reserved.
+            © {new Date().getFullYear()} tanudevworks. All rights reserved.
           </p>
           <motion.a
             href="#home"

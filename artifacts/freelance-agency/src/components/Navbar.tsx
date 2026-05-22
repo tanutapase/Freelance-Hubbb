@@ -34,7 +34,7 @@ export default function Navbar() {
           <div className="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center">
             <span className="text-white text-xs font-bold tracking-tight">S.</span>
           </div>
-          <span className="font-bold text-lg tracking-tight text-neutral-900">Studio</span>
+          <span className="font-bold text-lg tracking-tight text-neutral-900">tanudevworks</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
