@@ -1,0 +1,185 @@
+Update and improve the entire website design, UI, functionality, animations, forms, and responsiveness to make it look more premium, minimal, professional, and realistic.
+
+IMPORTANT FIXES:
+
+* REMOVE DOUBLE CURSOR BUG completely
+* Use only one smooth custom cursor OR default cursor
+* Cursor should feel premium and smooth
+* No laggy cursor
+* No broken hover effects
+* No overlapping sections
+* No console errors
+* No broken responsiveness
+* Everything must work perfectly
+
+DESIGN CHANGES:
+The current purple color theme does not look premium enough.
+
+Replace the color palette with a more elegant modern startup style palette.
+
+Use combinations like:
+
+* Soft black
+* White
+* Grey
+* Silver
+* Charcoal
+* Soft gradients
+* Minimal luxury tones
+
+Optional accent colors:
+
+* Soft red
+* Rose pink
+* Electric blue
+* Elegant cyan
+
+Make the overall website:
+
+* More minimal
+* Richer
+* Cleaner
+* Easier to understand for customers
+* More premium looking
+* More realistic
+* Modern startup aesthetic
+* Apple-inspired clean UI
+
+ICONS:
+
+* Replace all icons with more professional premium icons
+* Use modern minimal icons
+* Make icon sizes consistent
+* Better alignment and spacing
+
+TYPOGRAPHY:
+
+* Improve fonts and text hierarchy
+* More professional typography
+* Better spacing between text
+* Cleaner headings and subtitles
+
+HERO SECTION:
+Add this important trust text:
+“Pay only if you like the final website.”
+
+Display it beautifully under the main heading with premium styling.
+
+PRICING SECTION FIXES:
+Currently budget/type selection is not working properly.
+
+Fix all pricing logic.
+
+When customer clicks a pricing plan:
+
+* Automatically select that plan in the order form
+* Budget should auto-fill correctly
+
+Example:
+If user clicks:
+BASIC — ₹499
+Then:
+
+* Budget dropdown auto-selects ₹499
+* Plan field auto-selects Basic
+
+If user clicks:
+PRO — ₹999
+Then:
+
+* Auto-select Pro plan
+* Budget auto-select ₹999
+
+If user clicks:
+CUSTOM — ₹1999+
+Then:
+
+* Auto-select Custom plan
+* Budget auto-select ₹1999+
+
+ORDER FORM IMPROVEMENTS:
+Add better fields:
+
+* Full Name
+* Business Name
+* WhatsApp Number
+* Website Type
+* Preferred Style
+* Budget Dropdown
+* Example Website Links
+* Additional Details
+
+Make form UI:
+
+* More modern
+* Better spacing
+* Premium inputs
+* Floating labels
+* Smooth focus animations
+
+IMPORTANT:
+Use dropdown menus properly instead of broken input logic.
+
+Add:
+
+* Success popup animation
+* Professional confirmation message
+* “We will contact you soon on WhatsApp.”
+
+CUSTOM CURSOR:
+Create a premium custom cursor.
+Requirements:
+
+* Smooth movement
+* Minimal design
+* No double cursor issue
+* Disable cursor effects on mobile
+* Cursor should not block clicking
+* Subtle hover scaling effects
+
+WHATSAPP BUTTON:
+Improve floating WhatsApp button:
+
+* Better icon
+* Cleaner animation
+* Premium glow effect
+* Smooth hover effect
+
+AI CHATBOT:
+Improve AI chatbot UI:
+
+* Cleaner minimal style
+* Better animations
+* More realistic AI interface
+* Professional startup look
+* Better quick reply buttons
+
+PROJECT CARDS:
+Make project cards:
+
+* More realistic
+* Cleaner mockups
+* Better hover effects
+* More premium layouts
+
+ANIMATIONS:
+Reduce excessive animations.
+Keep animations:
+
+* Smooth
+* Premium
+* Minimal
+* Professional
+* Optimized
+
+RESPONSIVENESS:
+Ensure:
+
+* Perfect mobile responsiveness
+* Perfect tablet responsiveness
+* No cut text
+* No broken layouts
+* Proper spacing everywhere
+
+FINAL RESULT:
+The final website should look like a real premium startup web agency website made by a professional designer and developer.

@@ -1,52 +1,51 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X, Star, Send, CheckCircle2 } from "lucide-react";
+import { Check, X, Star, Send, CheckCircle2, Loader2 } from "lucide-react";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const plans = [
   {
     name: "Basic",
     price: "₹499",
+    priceValue: "₹499",
     description: "Perfect for small businesses getting started online.",
     features: [
-      "1 page website",
-      "Mobile responsive",
-      "Contact form",
-      "Fast delivery",
+      "1-page responsive website",
+      "Contact form included",
+      "Mobile-first design",
+      "Basic animations",
       "2–4 day delivery",
     ],
     popular: false,
-    accent: "border-border",
-    btn: "bg-foreground text-background hover:bg-foreground/90",
   },
   {
     name: "Pro",
     price: "₹999",
+    priceValue: "₹999",
     description: "Most popular for businesses ready to stand out.",
     features: [
       "Multi-section website",
-      "Better animations",
+      "Smooth animations",
       "WhatsApp integration",
       "Firebase integration",
       "3–5 day delivery",
     ],
     popular: true,
-    accent: "border-primary",
-    btn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
   {
     name: "Custom",
     price: "₹1999+",
+    priceValue: "₹1999+",
     description: "Advanced projects with custom features and systems.",
     features: [
       "Fully custom website",
-      "Booking systems",
-      "Advanced UI/UX",
+      "Booking / dashboard system",
+      "Advanced UI/UX design",
       "Database integration",
-      "Premium features",
+      "Timeline discussed upfront",
     ],
     popular: false,
-    accent: "border-border",
-    btn: "bg-foreground text-background hover:bg-foreground/90",
   },
 ];
 
@@ -56,7 +55,17 @@ const websiteTypes = [
   "Landing Page",
   "Booking System",
   "E-commerce",
+  "Blog / Content Site",
   "Other",
+];
+
+const preferredStyles = [
+  "Minimal & Clean",
+  "Bold & Modern",
+  "Elegant & Luxury",
+  "Playful & Creative",
+  "Corporate & Professional",
+  "Dark & Premium",
 ];
 
 interface ModalProps {
@@ -66,23 +75,53 @@ interface ModalProps {
 
 function OrderModal({ plan, onClose }: ModalProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     businessName: "",
     whatsapp: "",
     websiteType: "",
-    colors: "",
-    budget: "",
+    preferredStyle: "",
+    budget: plan?.priceValue ?? "",
     exampleLinks: "",
     details: "",
   });
 
   if (!plan) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const set = (key: string, val: string) =>
+    setForm(f => ({ ...f, [key]: val }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setLoading(true);
+    try {
+      await addDoc(collection(db, "orders"), {
+        selectedPlan: plan.name,
+        planPrice: plan.price,
+        fullName: form.name,
+        businessName: form.businessName,
+        whatsappNumber: form.whatsapp,
+        websiteType: form.websiteType,
+        preferredStyle: form.preferredStyle,
+        budget: form.budget,
+        exampleLinks: form.exampleLinks,
+        additionalDetails: form.details,
+        timestamp: serverTimestamp(),
+      });
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again or contact via WhatsApp.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const inputClass =
+    "w-full px-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 transition-all text-sm placeholder:text-neutral-400";
+  const labelClass = "text-xs font-semibold text-neutral-600 mb-1.5 block uppercase tracking-wide";
 
   return (
     <AnimatePresence>
@@ -90,163 +129,168 @@ function OrderModal({ plan, onClose }: ModalProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
-        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-sm"
+        onClick={e => { if (e.target === e.currentTarget) onClose(); }}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 20 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
+          transition={{ type: "spring", stiffness: 320, damping: 30 }}
           className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         >
           {!submitted ? (
             <>
-              <div className="p-8 border-b border-border flex items-center justify-between">
+              <div className="sticky top-0 bg-white px-8 py-6 border-b border-neutral-100 flex items-center justify-between z-10">
                 <div>
-                  <p className="text-sm text-primary font-semibold mb-1">Order Request</p>
-                  <h3 className="text-2xl font-bold">{plan.name} Plan — {plan.price}</h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    {plan.popular && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-neutral-900 text-white rounded-full text-xs font-semibold">
+                        <Star size={9} fill="currentColor" />
+                        Popular
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">Order Request</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-neutral-900">{plan.name} Plan — {plan.price}</h3>
                 </div>
                 <button
                   onClick={onClose}
-                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                  className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors"
                 >
-                  <X size={18} />
+                  <X size={15} />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">Your Name *</label>
-                  <input
-                    required
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="John Doe"
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  />
+                <div>
+                  <label className={labelClass}>Full Name *</label>
+                  <input required value={form.name} onChange={e => set("name", e.target.value)} placeholder="John Doe" className={inputClass} />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">Business Name</label>
-                  <input
-                    value={form.businessName}
-                    onChange={e => setForm(f => ({ ...f, businessName: e.target.value }))}
-                    placeholder="My Business"
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  />
+                <div>
+                  <label className={labelClass}>Business Name</label>
+                  <input value={form.businessName} onChange={e => set("businessName", e.target.value)} placeholder="My Business" className={inputClass} />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">WhatsApp Number *</label>
-                  <input
-                    required
-                    value={form.whatsapp}
-                    onChange={e => setForm(f => ({ ...f, whatsapp: e.target.value }))}
-                    placeholder="+91 98765 43210"
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  />
+                <div>
+                  <label className={labelClass}>WhatsApp Number *</label>
+                  <input required type="tel" value={form.whatsapp} onChange={e => set("whatsapp", e.target.value)} placeholder="+91 98765 43210" className={inputClass} />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">Website Type *</label>
-                  <select
-                    required
-                    value={form.websiteType}
-                    onChange={e => setForm(f => ({ ...f, websiteType: e.target.value }))}
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  >
+                <div>
+                  <label className={labelClass}>Website Type *</label>
+                  <select required value={form.websiteType} onChange={e => set("websiteType", e.target.value)} className={inputClass}>
                     <option value="">Select type...</option>
                     {websiteTypes.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">Preferred Colors</label>
-                  <input
-                    value={form.colors}
-                    onChange={e => setForm(f => ({ ...f, colors: e.target.value }))}
-                    placeholder="e.g. Blue, White, Black"
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  />
+                <div>
+                  <label className={labelClass}>Preferred Style</label>
+                  <select value={form.preferredStyle} onChange={e => set("preferredStyle", e.target.value)} className={inputClass}>
+                    <option value="">Select style...</option>
+                    {preferredStyles.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-foreground">Budget</label>
-                  <input
-                    value={form.budget}
-                    onChange={e => setForm(f => ({ ...f, budget: e.target.value }))}
-                    placeholder={plan.price}
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm"
-                  />
+                <div>
+                  <label className={labelClass}>Budget</label>
+                  <select value={form.budget} onChange={e => set("budget", e.target.value)} className={inputClass}>
+                    <option value="₹499">₹499 — Basic</option>
+                    <option value="₹999">₹999 — Pro</option>
+                    <option value="₹1999+">₹1999+ — Custom</option>
+                  </select>
                 </div>
 
-                <div className="flex flex-col gap-1.5 md:col-span-2">
-                  <label className="text-sm font-semibold text-foreground">Example Website Links</label>
+                <div className="md:col-span-2">
+                  <label className={labelClass}>Example Website Links</label>
                   <textarea
                     rows={2}
                     value={form.exampleLinks}
-                    onChange={e => setForm(f => ({ ...f, exampleLinks: e.target.value }))}
-                    placeholder="https://example.com (paste any sites you like)"
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm resize-none"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5 md:col-span-2">
-                  <label className="text-sm font-semibold text-foreground">Extra Details</label>
-                  <textarea
-                    rows={3}
-                    value={form.details}
-                    onChange={e => setForm(f => ({ ...f, details: e.target.value }))}
-                    placeholder="Tell me more about your project, goals, or any specific requirements..."
-                    className="px-4 py-3 rounded-xl border border-border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm resize-none"
+                    onChange={e => set("exampleLinks", e.target.value)}
+                    placeholder="https://example.com (paste websites you like for reference)"
+                    className={`${inputClass} resize-none`}
                   />
                 </div>
 
                 <div className="md:col-span-2">
+                  <label className={labelClass}>Additional Details</label>
+                  <textarea
+                    rows={3}
+                    value={form.details}
+                    onChange={e => set("details", e.target.value)}
+                    placeholder="Tell me about your project, goals, or any specific requirements..."
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
+
+                {error && (
+                  <div className="md:col-span-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                    {error}
+                  </div>
+                )}
+
+                <div className="md:col-span-2">
                   <button
                     type="submit"
-                    className="w-full py-4 bg-primary text-primary-foreground rounded-2xl font-semibold text-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2"
+                    disabled={loading}
+                    className="w-full py-4 bg-neutral-900 text-white rounded-2xl font-semibold text-base hover:bg-neutral-700 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 shadow-sm"
                   >
-                    <Send size={18} />
-                    Send Order Request
+                    {loading ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Sending Request...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        Send Order Request
+                      </>
+                    )}
                   </button>
+                  <p className="text-center text-xs text-neutral-400 mt-3">We'll reach out to you on WhatsApp within a few hours.</p>
                 </div>
               </form>
             </>
           ) : (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="p-12 flex flex-col items-center text-center gap-6"
+              className="p-14 flex flex-col items-center text-center gap-6"
             >
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
-                className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center"
+                transition={{ type: "spring", stiffness: 280, damping: 20, delay: 0.1 }}
+                className="w-20 h-20 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center"
               >
-                <CheckCircle2 size={40} className="text-green-500" />
+                <CheckCircle2 size={36} className="text-green-500" />
               </motion.div>
               <div>
-                <h3 className="text-2xl font-bold mb-3">Request Received!</h3>
-                <p className="text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                  Your request has been received successfully. Our team will contact you soon on WhatsApp.
+                <h3 className="text-2xl font-bold text-neutral-900 mb-2">Request Received!</h3>
+                <p className="text-neutral-500 leading-relaxed max-w-sm">
+                  Your order request has been received successfully.
+                </p>
+                <p className="text-neutral-500 mt-1">
+                  <strong className="text-neutral-700">We will contact you soon on WhatsApp.</strong>
                 </p>
               </div>
-              <div className="flex flex-col gap-2 w-full max-w-xs">
-                <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 rounded-xl border border-border">
-                  <CheckCircle2 size={16} className="text-green-500 shrink-0" />
-                  <span className="text-sm text-muted-foreground">Estimated delivery: 2–4 days</span>
-                </div>
-                <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 rounded-xl border border-border">
-                  <CheckCircle2 size={16} className="text-green-500 shrink-0" />
-                  <span className="text-sm text-muted-foreground">We'll reach you on WhatsApp shortly</span>
-                </div>
+              <div className="flex flex-col gap-2.5 w-full max-w-xs">
+                {[
+                  "Estimated delivery: 2–5 days",
+                  "We'll reach you on WhatsApp shortly",
+                  "100% satisfaction guaranteed",
+                ].map(text => (
+                  <div key={text} className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-xl border border-neutral-100">
+                    <CheckCircle2 size={14} className="text-green-500 shrink-0" />
+                    <span className="text-sm text-neutral-600">{text}</span>
+                  </div>
+                ))}
               </div>
               <button
                 onClick={onClose}
-                className="mt-2 px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors"
+                className="px-8 py-3 bg-neutral-900 text-white rounded-xl font-semibold hover:bg-neutral-700 transition-colors"
               >
                 Done
               </button>
@@ -262,82 +306,87 @@ export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
 
   return (
-    <section id="pricing" className="py-24 bg-gray-50 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[80px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-400/5 rounded-full blur-[80px]" />
-      </div>
-
+    <section id="pricing" className="py-24 bg-neutral-50 relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-12 relative">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-xl mx-auto mb-14">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-primary font-semibold text-sm uppercase tracking-widest mb-3"
+            className="text-blue-600 font-semibold text-xs uppercase tracking-widest mb-3"
           >
             Transparent Pricing
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-3xl md:text-4xl font-bold mb-4 text-neutral-900"
           >
             Simple, Honest Prices
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-muted-foreground text-lg"
+            transition={{ delay: 0.15 }}
+            className="text-neutral-500 text-base"
           >
             No hidden fees. No surprises. Just premium websites at affordable prices.
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`relative bg-white rounded-3xl border-2 ${plan.accent} p-8 flex flex-col hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${plan.popular ? "shadow-lg shadow-primary/10" : ""}`}
+              className={`relative bg-white rounded-2xl border flex flex-col transition-all duration-250 hover:-translate-y-1 ${
+                plan.popular
+                  ? "border-neutral-900 shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
+                  : "border-neutral-100 hover:border-neutral-200 hover:shadow-lg"
+              }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-4 py-1.5 bg-primary text-primary-foreground rounded-full text-xs font-bold shadow-lg shadow-primary/30">
-                  <Star size={12} fill="currentColor" />
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-4 py-1.5 bg-neutral-900 text-white rounded-full text-xs font-bold">
+                  <Star size={10} fill="currentColor" />
                   Most Popular
                 </div>
               )}
 
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-muted-foreground mb-2">{plan.name}</h3>
-                <div className="text-5xl font-bold text-foreground mb-3">{plan.price}</div>
-                <p className="text-sm text-muted-foreground">{plan.description}</p>
+              <div className={`p-7 pb-0 ${plan.popular ? "pt-9" : ""}`}>
+                <div className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3">{plan.name}</div>
+                <div className="text-4xl font-bold text-neutral-900 mb-2 tracking-tight">{plan.price}</div>
+                <p className="text-sm text-neutral-500 leading-relaxed">{plan.description}</p>
               </div>
 
-              <ul className="flex flex-col gap-3 mb-8 flex-1">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-sm">
-                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                      <Check size={12} className="text-green-600" />
-                    </div>
-                    <span className="text-foreground">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="p-7 flex flex-col flex-1">
+                <ul className="flex flex-col gap-3 mb-8">
+                  {plan.features.map(f => (
+                    <li key={f} className="flex items-start gap-3 text-sm">
+                      <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check size={11} className="text-neutral-700" strokeWidth={2.5} />
+                      </div>
+                      <span className="text-neutral-600">{f}</span>
+                    </li>
+                  ))}
+                </ul>
 
-              <button
-                onClick={() => setSelectedPlan(plan)}
-                className={`w-full py-3.5 rounded-2xl font-semibold transition-all hover:shadow-lg ${plan.popular ? "hover:shadow-primary/30" : ""} ${plan.btn}`}
-              >
-                Choose {plan.name}
-              </button>
+                <button
+                  onClick={() => setSelectedPlan(plan)}
+                  className={`mt-auto w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                    plan.popular
+                      ? "bg-neutral-900 text-white hover:bg-neutral-700 shadow-sm"
+                      : "bg-neutral-100 text-neutral-800 hover:bg-neutral-200"
+                  }`}
+                >
+                  Choose {plan.name}
+                </button>
+              </div>
             </motion.div>
           ))}
         </div>

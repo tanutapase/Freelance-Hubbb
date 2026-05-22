@@ -1,0 +1,87 @@
+Connect the entire website order system and contact forms to Firebase Firestore properly.
+
+IMPORTANT:
+Currently forms are not connected to Firebase.
+
+Set up complete Firebase Firestore integration for:
+
+* Pricing plan orders
+* Contact form submissions
+* Website inquiry forms
+
+REQUIREMENTS:
+
+1. FIREBASE SETUP
+
+* Configure Firebase correctly
+* Initialize Firebase app properly
+* Connect Firestore database
+* Use clean modular Firebase v9+ syntax
+* No deprecated Firebase code
+
+2. CREATE FIRESTORE COLLECTIONS
+   Create collections such as:
+
+* orders
+* contacts
+* inquiries
+
+3. WHEN CUSTOMER SUBMITS ORDER
+   Store all form data in Firestore including:
+
+* selectedPlan
+* fullName
+* businessName
+* whatsappNumber
+* websiteType
+* preferredStyle
+* budget
+* exampleLinks
+* additionalDetails
+* timestamp
+
+4. PLAN AUTO-SELECTION
+   When customer clicks pricing card:
+
+* Basic → auto-fill ₹499
+* Pro → auto-fill ₹999
+* Custom → auto-fill ₹1999+
+
+The selected plan must automatically appear in the form modal.
+
+5. SUCCESS MESSAGE
+   After successful Firebase submission:
+   Show animated success popup:
+   “Your request has been received successfully.”
+   “We will contact you soon on WhatsApp.”
+
+6. ERROR HANDLING
+   If Firebase submission fails:
+
+* Show proper error notification
+* Prevent empty form submission
+* Add loading animation while submitting
+
+7. SECURITY
+   Use proper Firestore security practices.
+   Do not expose unnecessary credentials.
+
+8. RESPONSIVENESS
+   Ensure forms and modals work perfectly on:
+
+* Mobile
+* Tablet
+* Desktop
+
+9. CLEAN CODE
+
+* Organize Firebase logic cleanly
+* Add comments explaining Firebase setup
+* Ensure no console errors
+* Optimize performance
+
+10. OPTIONAL EXTRA
+    Create a simple admin-ready structure so future admin dashboard can easily read all customer orders from Firestore.
+
+FINAL GOAL:
+Whenever any customer places an order or submits a form, the data should instantly appear inside Firebase Firestore database properly and reliably.
