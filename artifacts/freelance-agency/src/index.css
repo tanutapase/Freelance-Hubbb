@@ -125,19 +125,6 @@ header {
   -webkit-backface-visibility: hidden;
 }
 
-/* Isolate each section's paint area — reduces browser repaint scope */
-main > section {
-  contain: layout style;
-  isolation: isolate;
-}
-
-/* Prevent layout shifts during animation on cards */
-.group {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
 /* Framer Motion animated elements — hint GPU compositing */
 [style*="transform"],
 [style*="opacity"] {

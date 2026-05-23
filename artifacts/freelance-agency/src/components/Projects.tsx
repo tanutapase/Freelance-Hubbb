@@ -83,9 +83,7 @@ const projects = [
           </div>
         </div>
         <div className="flex-1 bg-white p-2 grid grid-cols-2 gap-2">
-          {[
-            "bg-rose-50", "bg-pink-50", "bg-fuchsia-50", "bg-purple-50"
-          ].map((c, i) => (
+          {["bg-rose-50", "bg-pink-50", "bg-fuchsia-50", "bg-purple-50"].map((c, i) => (
             <div key={i} className={`${c} rounded-lg overflow-hidden flex flex-col`}>
               <div className="flex-1 min-h-[40px]" />
               <div className="p-1.5">
@@ -144,6 +142,53 @@ const projects = [
       </div>
     ),
   },
+  {
+    title: "Gaming Cafe Website",
+    desc: "Dark premium gaming lounge website with RGB vibes, live session booking, and leaderboards.",
+    tags: ["React", "Firebase", "Dark UI"],
+    color: "from-neutral-950 to-slate-900",
+    accent: "bg-purple-500",
+    mockup: (
+      <div className="w-full h-full flex flex-col bg-neutral-950">
+        {/* Top nav */}
+        <div className="flex items-center justify-between px-3 py-2 border-b border-white/5">
+          <div className="flex items-center gap-1.5">
+            <div className="w-4 h-4 rounded bg-purple-500/80" />
+            <div className="h-2 w-14 bg-white/30 rounded-full" />
+          </div>
+          <div className="h-5 w-12 rounded-full bg-purple-600/70 border border-purple-400/30" />
+        </div>
+        {/* Hero with glow */}
+        <div className="relative px-3 pt-3 pb-2">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-10 bg-purple-600/30 rounded-full blur-2xl" />
+          <div className="relative h-2.5 w-3/4 bg-gradient-to-r from-purple-400/60 to-cyan-400/40 rounded-full mb-1.5" />
+          <div className="h-1.5 w-1/2 bg-white/15 rounded-full mb-2" />
+          <div className="flex gap-1.5">
+            <div className="h-5 w-16 rounded-md bg-purple-600/80 border border-purple-400/30" />
+            <div className="h-5 w-14 rounded-md border border-white/10" />
+          </div>
+        </div>
+        {/* Station cards with RGB glow */}
+        <div className="flex-1 px-2 pb-2 grid grid-cols-3 gap-1.5">
+          {[
+            { glow: "shadow-purple-600/40", border: "border-purple-500/30", dot: "bg-green-400" },
+            { glow: "shadow-cyan-500/30", border: "border-cyan-500/20", dot: "bg-green-400" },
+            { glow: "shadow-pink-500/30", border: "border-pink-500/20", dot: "bg-red-400" },
+          ].map((s, i) => (
+            <div key={i} className={`rounded-lg bg-white/5 border ${s.border} p-1.5 flex flex-col gap-1 shadow-lg ${s.glow}`}>
+              <div className="w-full aspect-video rounded bg-white/5 flex items-center justify-center">
+                <div className="w-3 h-3 rounded-sm bg-white/20" />
+              </div>
+              <div className="flex items-center gap-1">
+                <div className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
+                <div className="h-1.5 flex-1 bg-white/15 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
 ];
 
 export default function Projects() {
@@ -160,7 +205,7 @@ export default function Projects() {
             </motion.h2>
           </div>
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="text-neutral-500 max-w-sm text-sm leading-relaxed">
-            Premium websites built for ambitious brands, clinics, restaurants, and creators.
+            Premium websites built for ambitious brands, clinics, restaurants, gamers, and creators.
           </motion.p>
         </div>
 
@@ -171,7 +216,7 @@ export default function Projects() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
+              transition={{ delay: index * 0.07 }}
               className="group bg-white rounded-2xl border border-neutral-100 overflow-hidden hover:border-neutral-200 hover:shadow-[0_8px_40px_rgba(0,0,0,0.09)] transition-all duration-300 flex flex-col"
             >
               <div className={`relative h-52 w-full bg-gradient-to-br ${project.color} overflow-hidden`}>

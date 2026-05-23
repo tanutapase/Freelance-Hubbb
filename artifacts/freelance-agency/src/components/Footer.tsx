@@ -7,9 +7,9 @@ const quickLinks = ["Home", "About", "Projects", "Services", "Pricing", "Contact
 const services = ["Business Websites", "Ecommerce Stores", "Portfolio Sites", "Landing Pages", "Firebase Backend", "AI Chatbot Integration"];
 
 const socials = [
-  { icon: Instagram, href: "https://instagram.com/tanudevworks", label: "Instagram" },
-  { icon: Github, href: "https://github.com/tanudevworks", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/tanudevworks", label: "LinkedIn" },
+  { icon: Instagram, href: "https://www.instagram.com/tanuuuyyyy?igsh=cDAya3h0YnpxcmFq", label: "Instagram" },
+  { icon: Github, href: "https://github.com/tanudevworks-web", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/tanu-tapase-461405411", label: "LinkedIn" },
   { icon: SiWhatsapp, href: "https://wa.me/918433553501", label: "WhatsApp" },
 ];
 
@@ -79,7 +79,7 @@ export default function Footer() {
                 <Mail size={14} className="text-neutral-500 mt-0.5 shrink-0" />
                 <span className="text-sm text-neutral-400 group-hover:text-white transition-colors break-all">tanudevworks@gmail.com</span>
               </a>
-              <a href="https://wa.me/918433553501" className="group flex items-start gap-3">
+              <a href="https://wa.me/918433553501" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3">
                 <SiWhatsapp size={14} className="text-neutral-500 mt-0.5 shrink-0" />
                 <span className="text-sm text-neutral-400 group-hover:text-white transition-colors">+91 84335 53501</span>
               </a>
