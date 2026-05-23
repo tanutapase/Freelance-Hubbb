@@ -25,17 +25,13 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      await Promise.race([
-        addDoc(collection(db, "contacts"), { ...form, timestamp: serverTimestamp() }),
-        new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), 12000)),
-      ]);
+      await addDoc(collection(db, "contacts"), { ...form, timestamp: serverTimestamp() });
+      console.log("[TanuDevWorks] Contact saved to Firestore ✓");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "";
-      if (msg !== "timeout") {
-        setLoading(false);
-        setError("Failed to send. Please email tanudevworks@gmail.com directly.");
-        return;
-      }
+      console.error("[TanuDevWorks] Firestore write failed (contacts):", err);
+      setLoading(false);
+      setError("Failed to send. Please email tanudevworks@gmail.com directly.");
+      return;
     }
 
     setLoading(false);
