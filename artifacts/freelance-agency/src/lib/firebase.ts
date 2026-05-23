@@ -10,28 +10,41 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Warn in console if any env vars are missing
+// Surface missing config clearly in the console
 const missing = Object.entries(firebaseConfig)
   .filter(([, v]) => !v)
   .map(([k]) => k);
+
 if (missing.length > 0) {
-  console.error("[Firebase] Missing env vars:", missing);
+  console.error(
+    "%c[TanuDevWorks] Firebase NOT initialised — missing env vars:",
+    "color:red;font-weight:bold",
+    missing
+  );
+  console.error(
+    "%c[TanuDevWorks] Form submissions will FAIL until these are set in Replit Secrets.",
+    "color:red"
+  );
+} else {
+  console.log(
+    "%c[TanuDevWorks] Firebase config loaded ✓",
+    "color:green;font-weight:bold",
+    { projectId: firebaseConfig.projectId }
+  );
 }
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 export const db = getFirestore(app);
+export const firebaseReady = missing.length === 0;
 
 /**
- * FIRESTORE SECURITY RULES — ACTION REQUIRED
- * If form submissions aren't saving, go to:
- *   Firebase Console → Firestore Database → Rules
- * and set these rules (allows public writes for contact/order forms):
+ * FIRESTORE SECURITY RULES — set these in Firebase Console → Firestore → Rules:
  *
  * rules_version = '2';
  * service cloud.firestore {
  *   match /databases/{database}/documents {
- *     match /orders/{id}    { allow create: if true; }
- *     match /contacts/{id}  { allow create: if true; }
+ *     match /orders/{id}        { allow create: if true; }
+ *     match /contacts/{id}      { allow create: if true; }
  *     match /consultations/{id} { allow create: if true; }
  *   }
  * }
