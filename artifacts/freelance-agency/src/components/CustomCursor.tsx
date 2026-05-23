@@ -1,35 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import React, { useEffect } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+
+// Detect touch once — outside component to avoid re-checking
+const isTouchDevice =
+  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
 export default function CustomCursor() {
-  const [visible, setVisible] = useState(false);
-  const [isTouch, setIsTouch] = useState(true);
-
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
 
-  const ringX = useSpring(dotX, { stiffness: 140, damping: 20, mass: 0.6 });
-  const ringY = useSpring(dotY, { stiffness: 140, damping: 20, mass: 0.6 });
+  // Single opacity motion value — no React state, zero re-renders
+  const opacity = useMotionValue(0);
+  const ringOpacity = useTransform(opacity, [0, 1], [0, 0.45]);
+
+  // Tighter spring = more responsive ring without visual change
+  const ringX = useSpring(dotX, { stiffness: 220, damping: 26, mass: 0.4, restDelta: 0.001, restSpeed: 0.001 });
+  const ringY = useSpring(dotY, { stiffness: 220, damping: 26, mass: 0.4, restDelta: 0.001, restSpeed: 0.001 });
 
   useEffect(() => {
-    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
-    setIsTouch(isCoarse);
-    if (isCoarse) return;
+    if (isTouchDevice) return;
 
     const onMove = (e: MouseEvent) => {
       dotX.set(e.clientX);
       dotY.set(e.clientY);
-      if (!visible) setVisible(true);
+      // Only update opacity once — check avoids redundant motion value writes
+      if (opacity.get() === 0) opacity.set(1);
     };
 
-    document.addEventListener("mousemove", onMove);
+    // passive: true allows browser to skip calling preventDefault, improving scroll perf
+    document.addEventListener("mousemove", onMove, { passive: true });
     return () => document.removeEventListener("mousemove", onMove);
   }, []);
 
-  if (isTouch) return null;
+  if (isTouchDevice) return null;
 
   return (
     <>
+      {/* Dot — direct motion value tracking, no spring lag */}
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none rounded-full bg-neutral-900"
         style={{
@@ -39,9 +46,12 @@ export default function CustomCursor() {
           y: dotY,
           translateX: "-50%",
           translateY: "-50%",
-          opacity: visible ? 1 : 0,
+          opacity,
+          willChange: "transform, opacity",
+          backfaceVisibility: "hidden",
         }}
       />
+      {/* Ring — spring-lagged for premium feel */}
       <motion.div
         className="fixed top-0 left-0 z-[9998] pointer-events-none rounded-full border border-neutral-400/70"
         style={{
@@ -51,7 +61,9 @@ export default function CustomCursor() {
           y: ringY,
           translateX: "-50%",
           translateY: "-50%",
-          opacity: visible ? 0.5 : 0,
+          opacity: ringOpacity,
+          willChange: "transform, opacity",
+          backfaceVisibility: "hidden",
         }}
       />
     </>
