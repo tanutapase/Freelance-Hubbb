@@ -97,3 +97,49 @@ html {
     cursor: none !important;
   }
 }
+
+/* ─── Performance & GPU Optimizations ─── */
+
+/* Smooth scrolling with momentum on iOS */
+html {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Remove tap flash on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Promote navbar to own GPU layer — critical for backdrop-blur perf */
+header {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Floating fixed buttons — GPU promote to avoid repaints */
+.fixed {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Isolate each section's paint area — reduces browser repaint scope */
+main > section {
+  contain: layout style;
+  isolation: isolate;
+}
+
+/* Prevent layout shifts during animation on cards */
+.group {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Framer Motion animated elements — hint GPU compositing */
+[style*="transform"],
+[style*="opacity"] {
+  will-change: transform, opacity;
+}

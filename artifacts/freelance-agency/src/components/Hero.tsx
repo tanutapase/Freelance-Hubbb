@@ -111,6 +111,7 @@ export default function Hero() {
             {/* Floating stat cards */}
             <motion.div
               {...floatAnim(0, 8)}
+              style={{ willChange: "transform" }}
               className="absolute -left-6 top-8 z-20 bg-white rounded-2xl border border-neutral-100 shadow-xl px-4 py-3 flex items-center gap-3 hidden lg:flex"
             >
               <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center">
@@ -124,6 +125,7 @@ export default function Hero() {
 
             <motion.div
               {...floatAnim(0.8, 10)}
+              style={{ willChange: "transform" }}
               className="absolute -right-4 top-1/3 z-20 bg-white rounded-2xl border border-neutral-100 shadow-xl px-4 py-3 hidden lg:flex items-center gap-3"
             >
               <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -137,6 +139,7 @@ export default function Hero() {
 
             <motion.div
               {...floatAnim(1.4, 7)}
+              style={{ willChange: "transform" }}
               className="absolute -left-4 bottom-12 z-20 bg-white rounded-2xl border border-neutral-100 shadow-xl px-4 py-3 hidden lg:flex items-center gap-3"
             >
               <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center">
