@@ -74,20 +74,13 @@ export default function Consultation() {
     };
 
     try {
-      await Promise.race([
-        addDoc(collection(db, "consultations"), data),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("timeout")), 12000)
-        ),
-      ]);
+      await addDoc(collection(db, "consultations"), data);
+      console.log("[TanuDevWorks] Consultation saved to Firestore ✓");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "";
-      if (msg !== "timeout") {
-        setLoading(false);
-        setError("Could not submit. Please try WhatsApp directly.");
-        return;
-      }
-      // timeout — still show success
+      console.error("[TanuDevWorks] Firestore write failed (consultations):", err);
+      setLoading(false);
+      setError("Could not submit. Please try WhatsApp directly.");
+      return;
     }
 
     setLoading(false);

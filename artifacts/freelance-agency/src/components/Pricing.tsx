@@ -140,19 +140,13 @@ function OrderModal({ plan, onClose }: ModalProps) {
     };
 
     try {
-      await Promise.race([
-        addDoc(collection(db, "orders"), orderData),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("timeout")), 12000)
-        ),
-      ]);
+      await addDoc(collection(db, "orders"), orderData);
+      console.log("[TanuDevWorks] Order saved to Firestore ✓");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "";
-      if (msg !== "timeout") {
-        setLoading(false);
-        setError("Couldn't submit. Please try again or reach out on WhatsApp.");
-        return;
-      }
+      console.error("[TanuDevWorks] Firestore write failed (orders):", err);
+      setLoading(false);
+      setError("Couldn't submit. Please try again or reach out on WhatsApp.");
+      return;
     }
 
     setLoading(false);
