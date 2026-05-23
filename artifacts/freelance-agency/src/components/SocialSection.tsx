@@ -6,30 +6,30 @@ import { SiWhatsapp } from "react-icons/si";
 const socials = [
   {
     platform: "Instagram",
-    handle: "@tanudevworks",
+    handle: "@tanuuuyyyy",
     description: "Follow for design inspiration, project showcases and updates",
     icon: Instagram,
-    href: "https://instagram.com/tanudevworks",
+    href: "https://www.instagram.com/tanuuuyyyy?igsh=cDAya3h0YnpxcmFq",
     iconColor: "text-pink-600",
     iconBg: "bg-pink-50",
     border: "hover:border-pink-200",
   },
   {
     platform: "GitHub",
-    handle: "@tanudevworks",
+    handle: "@tanudevworks-web",
     description: "Browse open-source projects and code samples",
     icon: Github,
-    href: "https://github.com/tanudevworks",
+    href: "https://github.com/tanudevworks-web",
     iconColor: "text-neutral-800",
     iconBg: "bg-neutral-100",
     border: "hover:border-neutral-300",
   },
   {
     platform: "LinkedIn",
-    handle: "TanuDevWorks",
+    handle: "Tanu Tapase",
     description: "Connect professionally and see work experience",
     icon: Linkedin,
-    href: "https://linkedin.com/in/tanudevworks",
+    href: "https://www.linkedin.com/in/tanu-tapase-461405411",
     iconColor: "text-blue-600",
     iconBg: "bg-blue-50",
     border: "hover:border-blue-200",
@@ -79,7 +79,7 @@ export default function SocialSection() {
               <motion.a
                 key={social.platform}
                 href={social.href}
-                target="_blank"
+                target={social.href.startsWith("mailto") ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
