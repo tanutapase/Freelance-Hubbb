@@ -33,6 +33,10 @@ interface Message {
   text: string;
 }
 
+// Positions — chatbot sits 16px above the WhatsApp button (52px + 24px bottom = 76px top edge)
+const CHAT_BTN_BOTTOM = "bottom-[92px]";
+const WINDOW_BOTTOM = "bottom-[152px]";
+
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -46,9 +50,7 @@ export default function ChatBot() {
       setTyping(true);
       setTimeout(() => {
         setTyping(false);
-        setMessages([
-          { from: "bot", text: "Hi! 👋 I'm the TanuDevWorks assistant. How can I help you today?" },
-        ]);
+        setMessages([{ from: "bot", text: "Hi! 👋 I'm the TanuDevWorks assistant. How can I help you today?" }]);
       }, 900);
     }
   }, [open]);
@@ -80,17 +82,11 @@ export default function ChatBot() {
         ...prev,
         {
           from: "bot",
-          text: "Thanks for your message! For the fastest reply, WhatsApp me at +91 84335 53501 — or click the green button below. I'll get back to you soon! 🚀",
+          text: "Thanks for your message! For the fastest reply, WhatsApp me at +91 84335 53501 — or click the green button. I'll get back to you soon! 🚀",
         },
       ]);
     }, 1300);
   };
-
-  // Position: chatbot button sits 16px above the WhatsApp button (52px tall, bottom-6 = 24px)
-  // WA top = 24 + 52 = 76px from bottom → chat button bottom = 76 + 16 = 92px
-  const CHAT_BTN_BOTTOM = "bottom-[92px]";
-  // Window bottom = chat button bottom + chat button height (48px) + 12px gap = ~152px
-  const WINDOW_BOTTOM = "bottom-[152px]";
 
   return (
     <>
@@ -193,6 +189,7 @@ export default function ChatBot() {
                   ))}
                 </motion.div>
               )}
+
               <div ref={endRef} />
             </div>
 
@@ -216,26 +213,43 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
-      {/* Chat toggle button — sits above WhatsApp */}
-      <motion.button
-        onClick={() => setOpen((o) => !o)}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        aria-label={open ? "Close chat" : "Open chat"}
-        className={`fixed ${CHAT_BTN_BOTTOM} right-6 z-[60] w-[52px] h-[52px] rounded-full bg-neutral-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.22)] flex items-center justify-center`}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {open ? (
-            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <X size={18} />
-            </motion.span>
-          ) : (
-            <motion.span key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <MessageCircle size={18} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.button>
+      {/* Chat toggle button — pulse ring when closed, same feel as WhatsApp button */}
+      <div className={`fixed ${CHAT_BTN_BOTTOM} right-6 z-[60]`}>
+        {!open && (
+          <span className="absolute inset-0 rounded-full bg-neutral-600 animate-ping opacity-[0.18] pointer-events-none" />
+        )}
+        <motion.button
+          onClick={() => setOpen((o) => !o)}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          aria-label={open ? "Close chat" : "Open chat"}
+          className="relative w-[52px] h-[52px] rounded-full bg-neutral-900 text-white shadow-[0_4px_24px_rgba(0,0,0,0.32)] flex items-center justify-center"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {open ? (
+              <motion.span
+                key="x"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <X size={18} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="chat"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <MessageCircle size={18} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      </div>
     </>
   );
 }
