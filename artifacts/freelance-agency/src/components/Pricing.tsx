@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X, Star, Send, CheckCircle2, Loader2, MessageCircle, Globe, Shield } from "lucide-react";
+import {
+  Check,
+  X,
+  Star,
+  Send,
+  CheckCircle2,
+  Loader2,
+  MessageCircle,
+  Globe,
+  Shield,
+} from "lucide-react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
@@ -12,7 +22,8 @@ const plans = [
     name: "Starter",
     price: "₹499",
     priceValue: "₹499",
-    description: "Perfect for small businesses and individuals getting started online.",
+    description:
+      "Perfect for small businesses and individuals getting started online.",
     features: [
       "1-page responsive website",
       "Contact form included",
@@ -117,7 +128,8 @@ function OrderModal({ plan, onClose }: ModalProps) {
 
   if (!plan) return null;
 
-  const set = (key: string, val: string) => setForm((f) => ({ ...f, [key]: val }));
+  const set = (key: string, val: string) =>
+    setForm((f) => ({ ...f, [key]: val }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,6 +153,17 @@ function OrderModal({ plan, onClose }: ModalProps) {
 
     try {
       await addDoc(collection(db, "orders"), orderData);
+
+      await fetch(
+        "https://hook.us2.make.com/tt4zh66votnghplxk65ajb6z2nlls1p7",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        },
+      );
       console.log("[TanuDevWorks] Order saved to Firestore ✓");
     } catch (err) {
       console.error("[TanuDevWorks] Firestore write failed (orders):", err);
@@ -202,7 +225,10 @@ function OrderModal({ plan, onClose }: ModalProps) {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+              <form
+                onSubmit={handleSubmit}
+                className="p-8 grid grid-cols-1 md:grid-cols-2 gap-5"
+              >
                 <div>
                   <label className={labelClass}>Full Name *</label>
                   <input
@@ -319,7 +345,8 @@ function OrderModal({ plan, onClose }: ModalProps) {
                   >
                     {loading ? (
                       <>
-                        <Loader2 size={18} className="animate-spin" /> Submitting Request...
+                        <Loader2 size={18} className="animate-spin" />{" "}
+                        Submitting Request...
                       </>
                     ) : (
                       <>
@@ -342,7 +369,12 @@ function OrderModal({ plan, onClose }: ModalProps) {
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 280, damping: 18, delay: 0.1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 280,
+                  damping: 18,
+                  delay: 0.1,
+                }}
                 className="w-24 h-24 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center"
               >
                 <CheckCircle2 size={44} className="text-green-500" />
@@ -371,7 +403,10 @@ function OrderModal({ plan, onClose }: ModalProps) {
                     key={text}
                     className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-xl border border-neutral-100"
                   >
-                    <CheckCircle2 size={14} className="text-green-500 shrink-0" />
+                    <CheckCircle2
+                      size={14}
+                      className="text-green-500 shrink-0"
+                    />
                     <span className="text-sm text-neutral-600">{text}</span>
                   </div>
                 ))}
@@ -403,10 +438,15 @@ function OrderModal({ plan, onClose }: ModalProps) {
 }
 
 export default function Pricing() {
-  const [selectedPlan, setSelectedPlan] = useState<(typeof plans)[0] | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<(typeof plans)[0] | null>(
+    null,
+  );
 
   return (
-    <section id="pricing" className="py-24 bg-neutral-50 relative overflow-hidden">
+    <section
+      id="pricing"
+      className="py-24 bg-neutral-50 relative overflow-hidden"
+    >
       <div className="container mx-auto px-6 md:px-12 relative">
         <div className="text-center max-w-xl mx-auto mb-14">
           <motion.p
@@ -465,7 +505,9 @@ export default function Pricing() {
                 <div className="text-4xl font-bold text-neutral-900 mb-2 tracking-tight">
                   {plan.price}
                 </div>
-                <p className="text-sm text-neutral-500 leading-relaxed">{plan.description}</p>
+                <p className="text-sm text-neutral-500 leading-relaxed">
+                  {plan.description}
+                </p>
               </div>
 
               <div className="p-7 flex flex-col flex-1">
@@ -473,7 +515,11 @@ export default function Pricing() {
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-sm">
                       <div className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check size={11} className="text-neutral-700" strokeWidth={2.5} />
+                        <Check
+                          size={11}
+                          className="text-neutral-700"
+                          strokeWidth={2.5}
+                        />
                       </div>
                       <span className="text-neutral-600">{f}</span>
                     </li>
@@ -518,8 +564,12 @@ export default function Pricing() {
                       <Icon size={14} />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-neutral-800 mb-1">{f.title}</div>
-                      <p className="text-xs text-neutral-500 leading-relaxed">{f.desc}</p>
+                      <div className="text-xs font-bold text-neutral-800 mb-1">
+                        {f.title}
+                      </div>
+                      <p className="text-xs text-neutral-500 leading-relaxed">
+                        {f.desc}
+                      </p>
                     </div>
                   </div>
                 );
@@ -539,7 +589,8 @@ export default function Pricing() {
               </p>
               <span className="text-xs text-neutral-300">·</span>
               <p className="text-xs text-neutral-400 text-center sm:text-right">
-                Domain names (.com / .in / .store) purchased separately — setup support included
+                Domain names (.com / .in / .store) purchased separately — setup
+                support included
               </p>
             </div>
           </div>
